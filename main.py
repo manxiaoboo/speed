@@ -17,7 +17,7 @@ def onImageReceived(frame):
     
 mqttToCar.listen()
 camera.listen()
-# ui.show()
+ui.show()
 # driveInfo = xunji.main()
 # mqttToCar.driveCar(driveInfo.topic, driveInfo.speed)
 # 执行 getPictures.py, 存好图片 （目前其中是Bill提供的示例代码）

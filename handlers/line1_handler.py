@@ -9,7 +9,7 @@ def onImageReceived(frame):
     results = detect_line.predict(frame)
     
     if (tpEntity := util.findTurningPoint(results)):
-        isTurning = do.handleTruning(tpEntity, 'left')
+        isTurning = do.handleTurning(tpEntity, 'left')
     
         if isTurning:
             return True

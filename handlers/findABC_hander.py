@@ -5,7 +5,6 @@ import utils.direction_order as do
 
 def onImageReceived(frame):
     print("FindABC Handler:: RUNING")
-    do.turnAround()
     sys.exit(0)
 
 def missAll():

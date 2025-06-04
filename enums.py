@@ -9,6 +9,11 @@ class Status(Enum):
     LINE5 = 'line5'
     FindABC = 'findABC'
     Find123 = 'find123'
+    Catch = 'catch'
+    
+class CameraIndex(Enum):
+    LINE = '0'
+    TARGET = '1'
     
 class YOLOLineModelClasses(Enum):
     line = 0

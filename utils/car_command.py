@@ -10,3 +10,4 @@ TopicArmCC = "car/arm/CC"
 TopicCarStart = "car/Start"
 
 TopicGet = "car/getItem"
+TopicStand = "car/stand"

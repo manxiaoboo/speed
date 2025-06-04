@@ -4,9 +4,6 @@ import time
 import requests
 import local_status
 
-img_url = "http://192.168.1.5:5000/video_feed?id=0"
-
-
 # def listen(callback):
     # 设置树莓派视频流地址
     # video_url = "http://192.168.1.5:5000/video_feed/0"  # 替换为树莓派的实际 IP 地址
@@ -56,7 +53,8 @@ def takePhoto():
         'Pragma': 'no-cache',
         'Expires': '0'
     }
-    res = requests.get(img_url, headers=headers)
+    res = requests.get(local_status.getImageUrl(), headers=headers)
+    # res = requests.get(local_status.getImageUrl(), headers=headers)
     # local_status.updateImage(res.content)
     elapsed_time = time.time() - start_time
     print(f"图片请求：{elapsed_time:.3f}s")
@@ -66,7 +64,7 @@ def listen():
     try:
         while not local_status.CAR_BUSY:
             start_time = time.time()
-            res = requests.get(img_url)
+            res = requests.get(local_status.getImageUrl())
             local_status.updateImage(res.content)
             elapsed_time = time.time() - start_time
             print(f"图片请求：{elapsed_time:.3f}s")

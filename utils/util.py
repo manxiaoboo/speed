@@ -20,6 +20,18 @@ def findB(results):
 def findC(results):
     return findEntity(results, ['C'])
 
+def findTargetABC(results, target):
+    if target == "A":
+        return findA(results)
+    elif target == "B":
+        return findB(results)
+    elif target == "C":
+        return findC(results)
+
+def findAllABC(results):
+    return findEntity(results, ["A", "B", "C"])
+
+
 def findT1(results):
     return findEntity(results, ['t1'])
 

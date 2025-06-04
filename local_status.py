@@ -1,6 +1,9 @@
 import enums
 from blinker import signal
 
+IMAGE_URL = "http://192.168.1.5:5000/video_feed?id="
+CAMERA_INDEX = '0'
+
 IMAGE_WIDTH = 640
 IMAGE_HEIGHT = 480
 NORMAL_LINE_WIDTH = 83
@@ -9,14 +12,22 @@ CAMERA_READY = False
 MQTT_CLIENT = None
 DETECT_LINE_MODEL = None
 DETECT_TARGET_MODEL = None
-TARGET_1 = 'A'
-TARGET_2 = '3'
-CAR_STATUS = enums.Status.LINE1
+TARGET_ABC = 'A'
+TARGET_123 = '3'
+CAR_STATUS = enums.Status.IDLE
 CAR_BUSY = False
 CURR_IMG_BASE_64 = None
 
 
 img_updated = signal("img_updated")
+
+def getImageUrl():
+    print(IMAGE_URL + "" + CAMERA_INDEX)
+    return IMAGE_URL + "" + CAMERA_INDEX
+
+def setCamera(index):
+    global CAMERA_INDEX
+    CAMERA_INDEX = index
 
 def updateImage(img):
     global CURR_IMG_BASE_64
@@ -47,3 +58,6 @@ def isFindABC():
 
 def isFind123():
     return CAR_STATUS == enums.Status.Find123
+
+def isCatch():
+    return CAR_STATUS == enums.Status.Catch

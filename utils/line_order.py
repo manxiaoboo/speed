@@ -1,6 +1,8 @@
 import time
+import enums
 import utils.car_command as car_command
 import servers.mqtt_server as mqtt_server
+import servers.camera_server as camera_server
 import utils.util as util
 import local_status
     
@@ -11,12 +13,12 @@ def handleOffset(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     
-    if differenceX > 120:
-        offsetTurn(20, 0.2, 'left')
-        offsetHorizontal(40, 0.7, 'left')
-    elif differenceX < -120:
-        offsetTurn(20, 0.2, 'right')
-        offsetHorizontal(40, 0.7, 'right')
+    if differenceX > 140:
+        offsetTurn(20, 0.25, 'right')
+        offsetHorizontal(40, 0.6, 'left')
+    elif differenceX < -140:
+        offsetTurn(20, 0.25, 'left')
+        offsetHorizontal(40, 0.6, 'right')
     
 
 def handleLine(entity):
@@ -27,14 +29,14 @@ def handleLine(entity):
     differenceX = util.calcDifferenceX(lineCenterX)
     handleOffset(entity)
     
-    if abs(differenceX) <= 90:
+    if abs(differenceX) <= 110:
         ahead(-20, 0.2)
         ahead(-30, 0.2)
         ahead(-45, 0.2)
         ahead(-70, 1.2)
         ahead(-45, 0.2)
         ahead(-20, 0.2)
-    elif 90 < abs(differenceX) <= 120:
+    elif 110 < abs(differenceX) <= 140:
         ahead(-20, 0.2)
         ahead(-30, 0.2)
         ahead(-60, 0.7)
@@ -67,7 +69,6 @@ def handleEnd(entity):
         turnAround()
         return True
     elif abs(differenceY) < 60:
-        # pre action
         print('==Run 1s End')
         ahead(-42, 1)
         turnAround()
@@ -125,7 +126,11 @@ def turn(direction):
     move_car('turn', 20, 4.3, direction)
     
 def turnAround():
+    local_status.setCamera('2')
+    camera_server.takePhoto()
     move_car('turn', 20, 8.8, 'left')
+    mqtt_server.driveCar(car_command.TopicStand, 1)
+    time.sleep(1)
 
 def back():
     move_car('ahead', 40, 0.4)
@@ -139,7 +144,7 @@ def move_car(action, speed=0, duration=0, direction=None):
     elif action == 'turn':
         mqtt_server.driveCar(car_command.TopicMoveT, speed if direction == 'right' else -speed)
     elif action == 'horizontal':
-        mqtt_server.driveCar(car_command.TopicMoveH, -speed if direction == 'right' else speed)
+        mqtt_server.driveCar(car_command.TopicMoveH, speed if direction == 'right' else -speed)
     if duration > 0:
         time.sleep(duration)
     if action != 'stop':

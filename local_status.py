@@ -12,12 +12,13 @@ CAMERA_READY = False
 MQTT_CLIENT = None
 DETECT_LINE_MODEL = None
 DETECT_TARGET_MODEL = None
-TARGET_ABC = 'A'
+TARGET_ABC = 'C'
 TARGET_123 = '3'
-CAR_STATUS = enums.Status.IDLE
+CAR_STATUS = enums.Status.LINE1
 CAR_BUSY = False
 CURR_IMG_BASE_64 = None
-
+OUTLOOK = ['left', 'right', 'right', 'left']
+CURRENT_OUTLOOK_INDEX = 0
 
 img_updated = signal("img_updated")
 

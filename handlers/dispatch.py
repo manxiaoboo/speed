@@ -8,8 +8,8 @@ import servers.camera_server as camera_server
 def next():
         img = camera_server.takePhoto()
         frame = camera_server.process_image_from_misleading_response(img)
-        cv2.imshow('car', frame)
-        cv2.waitKey(0)
+        # cv2.imshow('car', frame)
+        # cv2.waitKey(0)
         if local_status.isIDLE():
             idle_handler.onImageReceived(frame)
         elif local_status.isLINE1():
@@ -35,7 +35,7 @@ def next():
         elif local_status.isFindABC():  
             isDone = findABC_handler.onImageReceived(frame)
             if isDone:
-                setStatus(enums.Status.find123_handler)
+                setStatus(enums.Status.Find123)
         elif local_status.isFind123():
             isDone = find123_handler.onImageReceived(frame)
             if isDone:

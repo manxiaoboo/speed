@@ -3,7 +3,7 @@ from ultralytics import YOLOv10
 import local_status
 
 def loadModel():
-    local_status.DETECT_LINE_MODEL = YOLOv10('yolo_models/detect_line_light.pt')
+    local_status.DETECT_LINE_MODEL = YOLOv10('yolo_models/detect_line.pt')
     print('[Model Line Ready]')
 
 def predict(frame):
@@ -12,7 +12,7 @@ def predict(frame):
     else:
         local_status.CAR_BUSY = True
         start_time = time.time()
-        results = local_status.DETECT_LINE_MODEL.predict(frame, conf=0.1)
+        results = local_status.DETECT_LINE_MODEL.predict(frame, conf=0.09)
         elapsed_time = time.time() - start_time
         print(f"模型耗时：{elapsed_time:.3f}s")
         results_dict = []
@@ -20,4 +20,5 @@ def predict(frame):
             if len(bbox.boxes) > 0:
                 results_dict.append(bbox.tojson())
         local_status.CAR_BUSY = False
+        print(results_dict)
         return results_dict

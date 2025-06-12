@@ -71,6 +71,9 @@ def findEntity(yolo_output_strings: List[str], labels):
 def getCenterPositionX(x1, x2):
     return (x1 + x2) / 2.0
 
+def getWidth(x1, x2):
+    return x2 - x1
+
 def getCenterPositionY(y1, y2):
     return (y1 + y2) / 2.0
 
@@ -79,3 +82,6 @@ def calcDifferenceX(centerX):
 
 def calcDifferenceY(centerY):
     return centerY - (local_status.IMAGE_HEIGHT / 2.0)
+
+def calcDifferenceWidth(width):
+    return width - local_status.NORMAL_LINE_WIDTH

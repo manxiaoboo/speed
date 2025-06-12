@@ -13,11 +13,41 @@ def handleOffset(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     
-    if differenceX > 40:
-        offsetHorizontal(40, 0.6, 'left')
-    elif differenceX < -40:
-        offsetHorizontal(40, 0.6, 'right')
+    if differenceX > 70:
+        # offsetTurn(20, 0.3, 'left')
+        offsetHorizontal(40, 0.5, 'right')
+    elif differenceX < -70:
+        # offsetTurn(20, 0.3, 'right')
+        offsetHorizontal(40, 0.5, 'left')
+    
+def goToABCTarget(entity):
+    box = entity['box']
+    x1 = box['x1']
+    x2 = box['x2']
+    lineCenterX = util.getCenterPositionX(x1, x2)
+    differenceX = util.calcDifferenceX(lineCenterX)
+    if abs(differenceX) > 70:
+        handleOffset(entity)
+        return False
+    else:
+        return True
+
+def nextOutlookPosition(entity):
+    next_index = 0
+    if local_status.CURRENT_OUTLOOK_INDEX == len(local_status.OUTLOOK):
+        next_index = 0
+    else:
+        next_index = local_status.CURRENT_OUTLOOK_INDEX + 1
         
+    ahead(40, 0.5)
+    if (local_status.OUTLOOK[local_status.CURRENT_OUTLOOK_INDEX] == 'left'):
+        offsetTurn(30, 0.3, 'right')
+    else:
+        offsetTurn(30, 0.3, 'left')
+        
+    offsetHorizontal(50, 5, local_status.OUTLOOK[local_status.CURRENT_OUTLOOK_INDEX])
+    local_status.CURRENT_OUTLOOK_INDEX = next_index
+
 def doCatch():
      mqtt_server.driveCar(car_command.TopicGet, 1)
      time.sleep(5)     
@@ -43,7 +73,10 @@ def turnAround():
     move_car('turn', 20, 8.8, 'left')
 
 def back():
-    move_car('ahead', 40, 0.4)
+    move_car('ahead', -40, 0.2)
+    
+def left():
+    offsetHorizontal(40, 0.2, 'left')
 
 def move_car(action, speed=0, duration=0, direction=None):
     local_status.CAR_BUSY = True

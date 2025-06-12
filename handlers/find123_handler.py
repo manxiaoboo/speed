@@ -6,7 +6,7 @@ import local_status
 
 def onImageReceived(frame):
     print("Find123 Handler:: RUNING")
-    do.doCatch()
+    # do.doCatch()
     missAll()
     
 

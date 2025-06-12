@@ -54,7 +54,7 @@ def takePhoto():
         'Expires': '0'
     }
     res = requests.get(local_status.getImageUrl(), headers=headers)
-    # res = requests.get(local_status.getImageUrl(), headers=headers)
+    res = requests.get(local_status.getImageUrl(), headers=headers)
     # local_status.updateImage(res.content)
     elapsed_time = time.time() - start_time
     print(f"图片请求：{elapsed_time:.3f}s")

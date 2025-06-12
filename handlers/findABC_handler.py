@@ -9,14 +9,16 @@ def onImageReceived(frame):
     results = detect_target.predict(frame)
     if (targetEntity := util.findTargetABC(results, local_status.TARGET_ABC)):
         print(targetEntity)
-        return True
+        return do.goToABCTarget(targetEntity)
     elif (abcEntities := util.findAllABC(results)):
         print(abcEntities)
-        return True
+        do.nextOutlookPosition(abcEntities)
+        return False
     else:
         missAll()
 
 def missAll():
     print("miss all")
+    do.left()
     do.back()
     return False

@@ -27,6 +27,17 @@ def findTargetABC(results, target):
         return findB(results)
     elif target == "C":
         return findC(results)
+    
+def findTarget123(results, target):
+    if target == "1":
+        return findT1(results)
+    elif target == "2":
+        return findT2(results)
+    elif target == "3":
+        return findT3(results)
+    
+def findALL123(results):
+    findEntity(results, ["t1", "t2", "t3"])
 
 def findAllABC(results):
     return findEntity(results, ["A", "B", "C"])

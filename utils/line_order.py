@@ -15,11 +15,11 @@ def handleOffset(entity):
     lineWidth = util.getWidth(x1, x2)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
         
-    if abs(differenceX) > 120:
+    if abs(differenceX) > 150:
         handleOffsetH(entity)
         return False
     
-    if abs(differenceWidth) > 25 and abs(differenceX) > 40:
+    if abs(differenceWidth) > 30 and abs(differenceX) >30:
         handleOffsetDirection(entity)
         return False
     
@@ -58,11 +58,6 @@ def handleOffsetH(entity):
 
 
 def handleLine(entity):
-    box = entity['box']
-    x1 = box['x1']
-    x2 = box['x2']
-    lineCenterX = util.getCenterPositionX(x1, x2)
-    differenceX = util.calcDifferenceX(lineCenterX)
     if handleOffset(entity) == False:
         return False
     
@@ -191,5 +186,3 @@ def move_car(action, speed=0, duration=0, direction=None):
     if action != 'stop':
         mqtt_server.driveCar(car_command.TopicStop, 50)
     local_status.CAR_BUSY = False
-    
-    exec('ftw.exe --language en')

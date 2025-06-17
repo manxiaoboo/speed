@@ -1,0 +1,26 @@
+import yolo_models.detect_line as detect_line
+import utils.util as util
+import utils.line_order as do
+
+def onImageReceived(frame):
+    print("Back Line1 Handler:: RUNING")
+    results = detect_line.predict(frame)
+    
+    if (tpEntity := util.findTurningPoint(results)):
+        isTurning = do.handleTurning(tpEntity, 'left')
+    
+        if isTurning:
+            return True
+        else:
+            return False
+        
+    elif (lineEntity := util.findLine(results)):
+        do.handleLine(lineEntity)
+        return False
+    else:
+        missAll()
+
+def missAll():
+    print("miss all")
+    do.back()
+    return False

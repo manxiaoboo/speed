@@ -1,21 +1,24 @@
+import sys
+import enums
 import yolo_models.detect_line as detect_line
 import utils.util as util
 import utils.line_order as do
-import local_status
 
 def onImageReceived(frame):
-    print("Line5 Handler:: RUNING")
+    print("Line1 Handler:: RUNING")
     results = detect_line.predict(frame)
-     
-    if local_status.CURRENT_SPRINT_COUNT == 3:
-        do.ahead(-45, 4)
-        return True
-     
-    if (lineEntity := util.findLine(results)):
-        do.handleLine(lineEntity)
-        local_status.CURRENT_SPRINT_COUNT = local_status.CURRENT_SPRINT_COUNT + 1
-        return False
     
+    if (tpEntity := util.findTurningPoint(results)):
+        isTurning = do.handleTurning(tpEntity, 'right')
+    
+        if isTurning:
+            return True
+        else:
+            return False
+        
+    elif (lineEntity := util.findLine(results)):
+        do.handleLine(lineEntity)
+        return False
     else:
         missAll()
 

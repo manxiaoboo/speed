@@ -2,7 +2,7 @@ import enums
 from blinker import signal
 
 IMAGE_URL = "http://192.168.1.5:5000/video_feed?id="
-CAMERA_INDEX = '0'
+CAMERA_INDEX = '2'
 
 IMAGE_WIDTH = 640
 IMAGE_HEIGHT = 480
@@ -13,12 +13,13 @@ MQTT_CLIENT = None
 DETECT_LINE_MODEL = None
 DETECT_TARGET_MODEL = None
 TARGET_ABC = 'C'
-TARGET_123 = '3'
-CAR_STATUS = enums.Status.LINE1
+TARGET_123 = '2'
+CAR_STATUS = enums.Status.Find123
 CAR_BUSY = False
 CURR_IMG_BASE_64 = None
 OUTLOOK = ['left', 'right', 'right', 'left']
 CURRENT_OUTLOOK_INDEX = 0
+CURRENT_SPRINT_COUNT = 0
 
 img_updated = signal("img_updated")
 
@@ -53,6 +54,21 @@ def isLINE4():
 
 def isLINE5():
     return CAR_STATUS == enums.Status.LINE5
+
+def isBACK_LINE1():
+    return CAR_STATUS == enums.Status.BACK_LINE1
+
+def isBACK_LINE2():
+    return CAR_STATUS == enums.Status.BACK_LINE2
+
+def isBACK_LINE3():
+    return CAR_STATUS == enums.Status.BACK_LINE3
+
+def isBACK_LINE4():
+    return CAR_STATUS == enums.Status.BACK_LINE4
+
+def isBACK_LINE5():
+    return CAR_STATUS == enums.Status.BACK_LINE5
 
 def isFindABC():
     return CAR_STATUS == enums.Status.FindABC

@@ -1,4 +1,4 @@
-from handlers import idle_handler, line1_handler, line2_handler, line3_handler, line4_handler, line5_handler, findABC_handler, find123_handler, catch_handler
+from handlers import idle_handler, line1_handler, line2_handler, line3_handler, line4_handler, line5_handler, findABC_handler, find123_handler, back_line1_handler, back_line2_handler, back_line3_handler, back_line4_handler, back_line5_handler
 import time
 import cv2
 import enums
@@ -12,6 +12,7 @@ def next():
         # cv2.waitKey(0)
         if local_status.isIDLE():
             idle_handler.onImageReceived(frame)
+            time.sleep(2)
         elif local_status.isLINE1():
             isDone = line1_handler.onImageReceived(frame)
             if isDone:
@@ -39,9 +40,27 @@ def next():
         elif local_status.isFind123():
             isDone = find123_handler.onImageReceived(frame)
             if isDone:
-                setStatus(enums.Status.Catch)
-        elif local_status.isCatch():
-            catch_handler.onImageReceived(frame)
+                setStatus(enums.Status.BACK_LINE1)
+        elif local_status.isBACK_LINE1():
+            isDone = back_line1_handler.onImageReceived(frame)
+            if isDone:
+                setStatus(enums.Status.BACK_LINE2)
+        elif local_status.isBACK_LINE2():    
+            isDone = back_line2_handler.onImageReceived(frame)
+            if isDone:
+                setStatus(enums.Status.BACK_LINE3)
+        elif local_status.isBACK_LINE3():    
+            isDone = back_line3_handler.onImageReceived(frame)
+            if isDone:
+                setStatus(enums.Status.BACK_LINE4)
+        elif local_status.isBACK_LINE4():    
+            isDone = back_line4_handler.onImageReceived(frame)
+            if isDone:
+                setStatus(enums.Status.BACK_LINE5)
+        elif local_status.isBACK_LINE5():    
+            isDone = back_line5_handler.onImageReceived(frame)
+            if isDone:
+                setStatus(enums.Status.IDLE)
         else:
             time.sleep(1)
         

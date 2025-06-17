@@ -111,8 +111,10 @@ def nextOutlookPosition():
     local_status.CURRENT_OUTLOOK_INDEX = next_index
 
 def doCatch():
-     mqtt_server.driveCar(car_command.TopicGet, 1)
-     time.sleep(5)     
+    local_status.CAR_BUSY = True
+    mqtt_server.driveCar(car_command.TopicGet, 1)
+    time.sleep(5)
+    local_status.CAR_BUSY = False
 
 def ahead(speed, duration):
     move_car('ahead', speed, duration)

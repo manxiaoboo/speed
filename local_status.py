@@ -4,6 +4,13 @@ from blinker import signal
 IMAGE_URL = "http://192.168.1.5:5000/video_feed?id="
 CAMERA_INDEX = '2'
 
+TARGET_ABC = 'C'
+TARGET_123 = '2'
+CAR_STATUS = enums.Status.Find123
+OUTLOOK = ['left', 'right', 'right', 'left']
+CURRENT_OUTLOOK_INDEX = 0
+
+
 IMAGE_WIDTH = 640
 IMAGE_HEIGHT = 480
 NORMAL_LINE_WIDTH = 83
@@ -12,13 +19,9 @@ CAMERA_READY = False
 MQTT_CLIENT = None
 DETECT_LINE_MODEL = None
 DETECT_TARGET_MODEL = None
-TARGET_ABC = 'C'
-TARGET_123 = '2'
-CAR_STATUS = enums.Status.Find123
+
 CAR_BUSY = False
 CURR_IMG_BASE_64 = None
-OUTLOOK = ['left', 'right', 'right', 'left']
-CURRENT_OUTLOOK_INDEX = 0
 CURRENT_SPRINT_COUNT = 0
 
 img_updated = signal("img_updated")

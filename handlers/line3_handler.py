@@ -4,23 +4,31 @@ import yolo_models.detect_line as detect_line
 import utils.util as util
 import utils.line_order as do
 
+firstRun = True
+
 def onImageReceived(frame):
     print("Line3 Handler:: RUNING")
-    results = detect_line.predict(frame)
-    
-    if (tpEntity := util.findTurningPoint(results)):
-        isTurning = do.handleTurning(tpEntity, 'right')
-    
-        if isTurning:
-            return True
-        else:
-            return False
-        
-    elif (lineEntity := util.findLine(results)):
-        do.handleLine(lineEntity)
+    global firstRun
+    if firstRun == True:
+        do.ahead(-55, 5)
+        firstRun = False
         return False
     else:
-        missAll()
+        results = detect_line.predict(frame)
+        
+        if (tpEntity := util.findTurningPoint(results)):
+            isTurning = do.handleTurning(tpEntity, 'right')
+        
+            if isTurning:
+                return True
+            else:
+                return False
+            
+        elif (lineEntity := util.findLine(results)):
+            do.handleLine(lineEntity)
+            return False
+        else:
+            missAll()
 
 def missAll():
     print("miss all")

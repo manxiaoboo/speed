@@ -2,11 +2,11 @@ import enums
 from blinker import signal
 
 IMAGE_URL = "http://192.168.1.5:5000/video_feed?id="
-CAMERA_INDEX = '2'
+CAMERA_INDEX = '0'
 
-TARGET_ABC = 'C'
+TARGET_ABC = 'A'
 TARGET_123 = '2'
-CAR_STATUS = enums.Status.Find123
+CAR_STATUS = enums.Status.LINE1
 OUTLOOK = ['left', 'right', 'right', 'left']
 CURRENT_OUTLOOK_INDEX = 0
 
@@ -81,3 +81,6 @@ def isFind123():
 
 def isCatch():
     return CAR_STATUS == enums.Status.Catch
+
+def isGoBack():
+    return CAR_STATUS == enums.Status.GO_BACK

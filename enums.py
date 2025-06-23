@@ -12,6 +12,7 @@ class Status(Enum):
     BACK_LINE3 = 'backline3'
     BACK_LINE4 = 'backline4'
     BACK_LINE5 = 'backline5'
+    GO_BACK = 'goback'
     FindABC = 'findABC'
     Find123 = 'find123'
     Catch = 'catch'

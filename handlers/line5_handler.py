@@ -1,23 +1,42 @@
+import sys
+import enums
 import yolo_models.detect_line as detect_line
 import utils.util as util
 import utils.line_order as do
-import local_status
+
+firstRun = True
+needFixOffset = False
 
 def onImageReceived(frame):
     print("Line5 Handler:: RUNING")
-    results = detect_line.predict(frame)
-     
-    if local_status.CURRENT_SPRINT_COUNT == 3:
-        do.ahead(-45, 4)
-        return True
-     
-    if (lineEntity := util.findLine(results)):
-        do.handleLine(lineEntity)
-        local_status.CURRENT_SPRINT_COUNT = local_status.CURRENT_SPRINT_COUNT + 1
-        return False
+    global firstRun
+    global needFixOffset
     
+    if firstRun == True:
+        do.ahead(-55, 3.5)
+        firstRun = False
+        return False
     else:
-        missAll()
+        results = detect_line.predict(frame)
+        
+        if needFixOffset == True:
+            lineEntity = util.findLine(results)
+            return do.handleOffset(lineEntity)
+        else:
+            if (endEntity := util.findEnd(results)):
+                turned = do.handleEnd(endEntity)
+                if (turned):
+                    needFixOffset = True
+                    return False
+                else:
+                    return False
+            
+            elif (lineEntity := util.findLine(results)):
+                do.handleLine(lineEntity)
+                return False
+            
+            else:
+                missAll()
 
 def missAll():
     print("miss all")

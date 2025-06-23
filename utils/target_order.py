@@ -15,11 +15,11 @@ def handleOffset(entity):
     lineWidth = util.getWidth(x1, x2)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
         
-    if abs(differenceX) > 100:
+    if abs(differenceX) > 150:
         handleOffsetH(entity)
         return False
     
-    if abs(differenceWidth) > 40 and abs(differenceX) > 40:
+    if abs(differenceWidth) > 45 and abs(differenceX) > 30:
         handleOffsetDirection(entity)
         return False
     
@@ -49,14 +49,14 @@ def handle123Offset(entity):
         return False
     
     print(targetHeight)
-    if targetHeight >= 250 and targetHeight <= 267:
+    if targetHeight >= 245 and targetHeight <= 280:
         doCatch()
         return True
     else:
-        if targetHeight > 267:
-            ahead(-30, 0.2)
+        if targetHeight > 264:
+            ahead(-30, 0.18)
         else:
-            ahead(30, 0.15)
+            ahead(30, 0.12)
         return False
     
 def handleOffsetDirection(entity):
@@ -107,13 +107,13 @@ def nextOutlookPosition():
     else:
         next_index = local_status.CURRENT_OUTLOOK_INDEX + 1
         
-    offsetHorizontal(50, 5, local_status.OUTLOOK[local_status.CURRENT_OUTLOOK_INDEX])
+    offsetHorizontal(50, 4.2, local_status.OUTLOOK[local_status.CURRENT_OUTLOOK_INDEX])
     local_status.CURRENT_OUTLOOK_INDEX = next_index
 
 def doCatch():
     local_status.CAR_BUSY = True
     mqtt_server.driveCar(car_command.TopicGet, 1)
-    time.sleep(5)
+    time.sleep(10)
     local_status.CAR_BUSY = False
 
 def ahead(speed, duration):

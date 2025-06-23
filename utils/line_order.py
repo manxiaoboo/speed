@@ -19,7 +19,7 @@ def handleOffset(entity):
         handleOffsetH(entity)
         return False
     
-    if abs(differenceWidth) > 30 and abs(differenceX) >30:
+    if abs(differenceWidth) > 45 and abs(differenceX) > 30:
         handleOffsetDirection(entity)
         return False
     
@@ -33,10 +33,10 @@ def handleOffsetDirection(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
-    turn_size = abs(differenceWidth) / 110 * 0.25
+    turn_size = abs(differenceWidth) / 130 * 0.2
     print(f"turn  {turn_size}")
-    if turn_size < 0.1:
-        turn_size = 0.1
+    if turn_size < 0.08:
+        turn_size = 0.08
     if differenceX > 0:
         offsetTurn(30, turn_size, 'right')
     elif differenceX < 0:
@@ -64,7 +64,7 @@ def handleLine(entity):
     ahead(-20, 0.2)
     ahead(-30, 0.2)
     ahead(-45, 0.2)
-    ahead(-55, 1.5)
+    ahead(-55, 1.7)
     ahead(-45, 0.2)
     ahead(-20, 0.2)
 
@@ -77,27 +77,27 @@ def handleEnd(entity):
     handleOffset(entity)
     if differenceY > 0:
         print('==TrunAround Now End')
-        ahead(-42, 2.5)
+        ahead(-48, 2.5)
         turnAround()
         return True
     elif 180 <= abs(differenceY) <= 240:
-        print('==Run 3.6s End')
-        ahead(-42, 3.6)
+        print('==Run 4.4s End')
+        ahead(-48, 4.4)
         turnAround()
         return True
     elif 120 <= abs(differenceY) < 180:
         print('==Run 4s End')
-        ahead(-42, 4)
+        ahead(-48, 4)
         turnAround()
         return True
     elif 60 <= abs(differenceY) < 120:
-        print('==Run 3.5s End')
-        ahead(-42, 3.5)
+        print('==Run 3.8s End')
+        ahead(-48, 3.8)
         turnAround()
         return True
     elif abs(differenceY) < 60:
-        print('==Run 3s End')
-        ahead(-42, 3)
+        print('==Run 3.5s End')
+        ahead(-48, 3.5)
         turnAround()
         return True
         
@@ -124,8 +124,8 @@ def handleTurning(entity, direction):
         turn(direction)
         return True
     elif 180 <= abs(differenceY) <= 240:
-        print('==Run 3.2s Turn:' + direction)
-        ahead(-42, 3.2)
+        print('==Run 3.4s Turn:' + direction)
+        ahead(-42, 3.4)
         turn(direction)
         return True
     elif 120 <= abs(differenceY) < 180:
@@ -162,14 +162,12 @@ def turn(direction):
     move_car('turn', 20, 4, direction)
     
 def turnAround():
-    local_status.setCamera('2')
-    camera_server.takePhoto()
     move_car('turn', 20, 8.8, 'left')
     mqtt_server.driveCar(car_command.TopicStand, 1)
     time.sleep(1)
 
 def back():
-    move_car('ahead', 40, 0.6)
+    move_car('ahead', 40, 0.8)
     
 def move_car(action, speed=0, duration=0, direction=None):
     local_status.CAR_BUSY = True

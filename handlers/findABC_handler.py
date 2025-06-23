@@ -14,11 +14,9 @@ def onImageReceived(frame):
     if (util.findALL123(results)):
         return True
 
-    if (util.findAllABC(results)):
-        do.nextOutlookPosition()
-        return False
-        
-    missAll()
+    do.nextOutlookPosition()
+    
+    return False
 
 def missAll():
     print("miss all")

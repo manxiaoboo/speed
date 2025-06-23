@@ -11,8 +11,6 @@ def onImageReceived(frame):
         isDone = do.goTo123Target(targetEntity)
         
         if isDone:
-            do.nextOutlookPosition()
-            local_status.setCamera('0')
             return True
         else:
             return False

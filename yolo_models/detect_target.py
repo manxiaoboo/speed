@@ -9,7 +9,7 @@ def predict(frame):
     if local_status.DETECT_TARGET_MODEL is None:
         return []
     else:
-        results = local_status.DETECT_TARGET_MODEL.predict(frame, conf=0.08)
+        results = local_status.DETECT_TARGET_MODEL.predict(frame, conf=0.1)
         results_dict = []
         for bbox in results:
             if len(bbox.boxes) > 0:

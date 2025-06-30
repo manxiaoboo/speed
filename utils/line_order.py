@@ -15,11 +15,11 @@ def handleOffset(entity):
     lineWidth = util.getWidth(x1, x2)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
         
-    if abs(differenceX) > 150:
+    if abs(differenceX) > 140:
         handleOffsetH(entity)
         return False
     
-    if abs(differenceWidth) > 45 and abs(differenceX) > 30:
+    if abs(differenceWidth) > 32 and abs(differenceX) > 30:
         handleOffsetDirection(entity)
         return False
     
@@ -33,7 +33,7 @@ def handleOffsetDirection(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
-    turn_size = abs(differenceWidth) / 130 * 0.2
+    turn_size = abs(differenceWidth) / 140 * 0.2
     print(f"turn  {turn_size}")
     if turn_size < 0.08:
         turn_size = 0.08

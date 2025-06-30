@@ -32,31 +32,40 @@ def handle123Offset(entity):
     y1 = box['y1']
     y2 = box['y2']
     lineCenterX = util.getCenterPositionX(x1, x2)
+    lineCenterY = util.getCenterPositionY(y1, y2)
     differenceX = util.calcDifferenceX(lineCenterX)
+    differenceY = util.calcDifferenceY(lineCenterY)
     targetHeight = y2 - y1
     lineWidth = util.getWidth(x1, x2)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
     
-    if targetHeight <= 180:
+    if targetHeight < 200:
         ahead(30, 0.2)
-    print(differenceX, differenceWidth)
-    if abs(differenceX) > 150:
+        
+    if abs(differenceX) > 55:
         handleOffsetH(entity)
         return False
         
-    if abs(differenceWidth) > 50:
+    if abs(differenceWidth) > 60:
         handleOffsetDirection(entity)
         return False
     
-    print(targetHeight)
-    if targetHeight >= 245 and targetHeight <= 280:
+    if targetHeight >= 200 and targetHeight < 285:
+        ahead(30, abs(targetHeight) / 320)
+        doCatch()
+        return True
+    
+    if targetHeight >= 285 and targetHeight <= 290:
         doCatch()
         return True
     else:
-        if targetHeight > 264:
-            ahead(-30, 0.18)
+        go_size = abs(differenceY) / 20
+        if targetHeight > 290:
+            ahead(-30, 0.2)
         else:
-            ahead(30, 0.12)
+            if go_size < 0.1:
+                go_size = 0.1
+            ahead(30, go_size)
         return False
     
 def handleOffsetDirection(entity):
@@ -67,7 +76,7 @@ def handleOffsetDirection(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
-    turn_size = abs(differenceWidth) / 120 * 0.25
+    turn_size = abs(differenceWidth) / 100 * 0.23
     print(f"turn  {turn_size}")
     if differenceX > 0:
         offsetTurn(30, turn_size, 'right')
@@ -81,7 +90,7 @@ def handleOffsetH(entity):
     x2 = box['x2']
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
-    horizontal_size = abs(differenceX) / 100 * 0.25
+    horizontal_size = abs(differenceX) / 65 * 0.25
     print(f"Move H {horizontal_size}")
     if differenceX > 0:
         offsetHorizontal(40, horizontal_size, 'right')
@@ -107,7 +116,7 @@ def nextOutlookPosition():
     else:
         next_index = local_status.CURRENT_OUTLOOK_INDEX + 1
         
-    offsetHorizontal(50, 4.2, local_status.OUTLOOK[local_status.CURRENT_OUTLOOK_INDEX])
+    offsetHorizontal(50, 5.5, local_status.OUTLOOK[local_status.CURRENT_OUTLOOK_INDEX])
     local_status.CURRENT_OUTLOOK_INDEX = next_index
 
 def doCatch():

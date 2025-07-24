@@ -7,8 +7,8 @@ def onImageReceived(frame):
     print("Line5 Handler:: RUNING")
     results = detect_line.predict(frame)
      
-    if local_status.CURRENT_SPRINT_COUNT == 3:
-        do.ahead(-45, 4)
+    if local_status.CURRENT_SPRINT_COUNT == 6:
+        do.ahead(-52, 6)
         return True
      
     if (lineEntity := util.findLine(results)):

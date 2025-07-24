@@ -29,11 +29,12 @@ def next():
             isDone = line4_handler.onImageReceived(frame)
             if isDone:
                 setStatus(enums.Status.LINE5)
-        elif local_status.isLINE5():    
+        elif local_status.isLINE5():
             isDone = line5_handler.onImageReceived(frame)
             if isDone:
                 setStatus(enums.Status.FindABC)
                 local_status.setCamera('2')
+                time.sleep(2)
                 camera_server.takePhoto()
         elif local_status.isFindABC():  
             isDone = findABC_handler.onImageReceived(frame)

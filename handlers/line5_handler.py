@@ -5,37 +5,25 @@ import utils.util as util
 import utils.line_order as do
 
 firstRun = True
-needFixOffset = False
 
 def onImageReceived(frame):
     print("Line5 Handler:: RUNING")
     global firstRun
-    global needFixOffset
     
     if firstRun == True:
-        do.ahead(-55, 3.5)
+        do.ahead(-55, 1)
         firstRun = False
         return False
-    else:
+    else:        
         results = detect_line.predict(frame)
         
-        if needFixOffset == True:
-            lineEntity = util.findLine(results)
-            return do.handleOffset(lineEntity)
-        else:
-            if (endEntity := util.findEnd(results)):
-                turned = do.handleEnd(endEntity)
-                if (turned):
-                    needFixOffset = True
-                    return False
-                else:
-                    return False
+        if (endEntity := util.findEnd(results)):
+            return do.handleEnd(endEntity)
             
-            elif (lineEntity := util.findLine(results)):
+        elif (lineEntity := util.findLine(results)):
                 do.handleLine(lineEntity)
-                return False
-            
-            else:
+                return False    
+        else:
                 missAll()
 
 def missAll():

@@ -32,40 +32,37 @@ def handle123Offset(entity):
     y1 = box['y1']
     y2 = box['y2']
     lineCenterX = util.getCenterPositionX(x1, x2)
-    lineCenterY = util.getCenterPositionY(y1, y2)
     differenceX = util.calcDifferenceX(lineCenterX)
-    differenceY = util.calcDifferenceY(lineCenterY)
     targetHeight = y2 - y1
     lineWidth = util.getWidth(x1, x2)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
+        
     
-    if targetHeight < 200:
-        ahead(30, 0.2)
-        
-    if abs(differenceX) > 55:
-        handleOffsetH(entity)
-        return False
-        
-    if abs(differenceWidth) > 60:
+    if abs(differenceWidth) > 51:
         handleOffsetDirection(entity)
         return False
     
-    if targetHeight >= 200 and targetHeight < 285:
-        ahead(30, abs(targetHeight) / 320)
+    if abs(differenceX) > 60:
+        handleOffsetH(entity)
+        return False
+    
+    if targetHeight < 200:
+        ahead(30, 0.6)
+        return False
+    
+    if targetHeight >= 200 and targetHeight < 286:
+        ahead(35, abs(targetHeight) / 290)
+        handleOffsetDirection(entity)
         doCatch()
         return True
     
-    if targetHeight >= 285 and targetHeight <= 290:
+    if targetHeight >= 286 and targetHeight <= 290:
+        handleOffsetDirection(entity)
         doCatch()
         return True
-    else:
-        go_size = abs(differenceY) / 20
-        if targetHeight > 290:
-            ahead(-30, 0.2)
-        else:
-            if go_size < 0.1:
-                go_size = 0.1
-            ahead(30, go_size)
+    
+    if targetHeight > 290:
+        ahead(-30, 0.2)
         return False
     
 def handleOffsetDirection(entity):
@@ -76,12 +73,12 @@ def handleOffsetDirection(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
-    turn_size = abs(differenceWidth) / 100 * 0.23
+    turn_size = abs(differenceWidth) / 100 * 0.25
     print(f"turn  {turn_size}")
     if differenceX > 0:
-        offsetTurn(30, turn_size, 'right')
+        offsetTurn(28, turn_size, 'right')
     elif differenceX < 0:
-        offsetTurn(30, turn_size, 'left')
+        offsetTurn(28, turn_size, 'left')
     
 
 def handleOffsetH(entity):

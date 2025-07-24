@@ -2,13 +2,13 @@ import enums
 from blinker import signal
 
 IMAGE_URL = "http://192.168.1.5:5000/video_feed?id="
-CAMERA_INDEX = '2'
+CAMERA_INDEX = '0'
 
 TARGET_ABC = 'B'
-TARGET_123 = '3'
-CAR_STATUS = enums.Status.Find123
+TARGET_123 = '1'
+CAR_STATUS = enums.Status.LINE3
 OUTLOOK = ['left', 'right', 'right', 'left']
-CURRENT_OUTLOOK_INDEX = 1
+CURRENT_OUTLOOK_INDEX = 0
 
 
 IMAGE_WIDTH = 640

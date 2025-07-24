@@ -9,13 +9,13 @@ firstRun = True
 def onImageReceived(frame):
     print("Line1 Handler:: RUNING")
     global firstRun
+    
     if firstRun == True:
-        do.ahead(-55, 6)
+        do.ahead(-55, 1.5)
         firstRun = False
         return False
     else:
         results = detect_line.predict(frame)
-        
         if (tpEntity := util.findTurningPoint(results)):
             isTurning = do.handleTurning(tpEntity, 'left')
         

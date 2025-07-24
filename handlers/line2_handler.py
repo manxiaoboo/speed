@@ -9,8 +9,11 @@ firstRun = True
 def onImageReceived(frame):
     print("Line2 Handler:: RUNING")
     global firstRun
+    results = detect_line.predict(frame)
+    
     if firstRun == True:
-        do.ahead(-55, 4)
+        do.handleOffset(util.findLine(results))
+        do.ahead(-55, 2)
         firstRun = False
         return False
     else:

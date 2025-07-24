@@ -5,7 +5,8 @@ import local_status
 
 def onImageReceived(frame):
     print("GoBack Handler:: RUNING")
-    do.nextOutlookPosition()
+    if local_status.CURRENT_OUTLOOK_INDEX > 0:
+        do.nextOutlookPosition()
     local_status.setCamera('0')
     do.ahead(-40, 4)
     return True

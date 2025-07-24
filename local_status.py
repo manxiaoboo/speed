@@ -6,7 +6,7 @@ CAMERA_INDEX = '0'
 
 TARGET_ABC = 'B'
 TARGET_123 = '1'
-CAR_STATUS = enums.Status.LINE3
+CAR_STATUS = enums.Status.LINE1
 OUTLOOK = ['left', 'right', 'right', 'left']
 CURRENT_OUTLOOK_INDEX = 0
 

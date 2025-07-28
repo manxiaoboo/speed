@@ -8,8 +8,8 @@ import servers.camera_server as camera_server
 def next():
         img = camera_server.takePhoto()
         frame = camera_server.process_image_from_misleading_response(img)
-        # cv2.imshow('car', frame)
-        # cv2.waitKey(0)
+        cv2.imshow('car', frame)
+        cv2.waitKey(0)
         if local_status.isIDLE():
             idle_handler.onImageReceived(frame)
             time.sleep(2)

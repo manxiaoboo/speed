@@ -85,6 +85,9 @@ def getCenterPositionX(x1, x2):
 def getWidth(x1, x2):
     return x2 - x1
 
+def getHeight(y1, y2):
+    return y2 - y1
+
 def getCenterPositionY(y1, y2):
     return (y1 + y2) / 2.0
 

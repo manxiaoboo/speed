@@ -12,7 +12,7 @@ def predict(frame):
     else:
         local_status.CAR_BUSY = True
         start_time = time.time()
-        results = local_status.DETECT_LINE_MODEL.predict(frame, conf=0.09)
+        results = local_status.DETECT_LINE_MODEL.predict(frame, conf=0.1)
         elapsed_time = time.time() - start_time
         print(f"模型耗时：{elapsed_time:.3f}s")
         results_dict = []

@@ -16,10 +16,12 @@ def handleOffset(entity):
     differenceWidth = util.calcDifferenceWidth(lineWidth)
         
     if abs(differenceX) > 130:
+        print('handleH============>', abs(differenceX))
         handleOffsetH(entity)
         return False
     
-    if abs(differenceWidth) > 23 and abs(differenceX) > 28:
+    if abs(differenceWidth) > 25 and abs(differenceX) > 28:
+        print('handleDirection=============>', abs(differenceWidth))
         handleOffsetDirection(entity)
         return False
     
@@ -33,7 +35,7 @@ def handleOffsetDirection(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
-    turn_size = abs(differenceWidth) / 140 * 0.25
+    turn_size = abs(differenceWidth) / 130 * 0.25
     print(f"turn  {turn_size}")
     if turn_size < 0.04:
         turn_size = 0.04
@@ -50,6 +52,8 @@ def handleOffsetH(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     horizontal_size = abs(differenceX) / 90 * 0.25
+    if horizontal_size < 0.04:
+        horizontal_size = 0.04
     print(f"Move H {horizontal_size}")
     if differenceX > 0:
         offsetHorizontal(40, horizontal_size, 'left')
@@ -61,12 +65,12 @@ def handleLine(entity):
     if handleOffset(entity) == False:
         return False
     
-    ahead(-20, 0.2)
-    ahead(-30, 0.2)
-    ahead(-45, 0.2)
-    ahead(-55, 1.7)
-    ahead(-45, 0.2)
-    ahead(-20, 0.2)
+    # ahead(-20, 0.2)
+    # ahead(-30, 0.2)
+    # ahead(-45, 0.2)
+    ahead(-70, 1.7)
+    # ahead(-45, 0.2)
+    # ahead(-20, 0.2)
 
 def handleEnd(entity):
     box = entity['box']
@@ -109,18 +113,17 @@ def handleTurning(entity, direction):
     y2 = box['y2']
     lineCenterY = util.getCenterPositionY(y1, y2)
     differenceY = util.calcDifferenceY(lineCenterY)
+    turnHeight = util.getHeight(y1, y2)
     
     if handleOffset(entity) == False:
         return False
     
-    if differenceY > 0 and differenceY <= 80:
-        print('==Trun Now Turn:' + direction)
-        ahead(-42, 1.5)
-        turn(direction)
-        return True
+    if differenceY >= 0:
+        back()
+        return False
     
-    if abs(differenceY) > 80 and abs(differenceY) <= 240:
-        ahead(-42, abs(differenceY) / 40)
+    if differenceY < 0:
+        ahead(-62, abs((240 - turnHeight) / 72))
         turn(direction)
         return True
     
@@ -140,7 +143,7 @@ def offsetHorizontal(speed, duration, direction):
     move_car('horizontal', speed, duration, direction)
     
 def turn(direction):
-    move_car('turn', 20, 4.1, direction)
+    move_car('turn', 53, 1.2, direction)
     
 def turnAround():
     move_car('turn', 25, 6.2, 'left')
@@ -148,7 +151,7 @@ def turnAround():
     time.sleep(1)
 
 def back():
-    move_car('ahead', 40, 0.8)
+    move_car('ahead', 40, 0.4)
     
 def move_car(action, speed=0, duration=0, direction=None):
     local_status.CAR_BUSY = True

@@ -7,7 +7,7 @@ CAMERA_INDEX = '0'
 
 TARGET_ABC = 'B'
 TARGET_123 = '3'
-CAR_STATUS = enums.Status.LINE5
+CAR_STATUS = enums.Status.IDLE
 
 
 OUTLOOK = ['', '', '']
@@ -25,7 +25,6 @@ DETECT_TARGET_MODEL = None
 
 CAR_BUSY = False
 CURR_IMG_BASE_64 = None
-CURRENT_SPRINT_COUNT = 0
 
 img_updated = signal("img_updated")
 
@@ -42,6 +41,18 @@ def updateImage(img):
     CURR_IMG_BASE_64 = img
     if not CAR_BUSY:
         img_updated.send(img)
+        
+def setIdle():
+    global CAR_STATUS
+    CAR_STATUS = enums.Status.IDLE
+
+def setCatch():
+    global CAR_STATUS
+    CAR_STATUS = enums.Status.FindABC
+
+def setLine():
+    global CAR_STATUS
+    CAR_STATUS = enums.Status.LINE1
 
 def isIDLE():
     return CAR_STATUS == enums.Status.IDLE

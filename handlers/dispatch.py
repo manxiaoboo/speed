@@ -17,7 +17,7 @@ def next():
         # cv2.waitKey(0)
         if local_status.isIDLE():
             idle_handler.onImageReceived(frame)
-            time.sleep(2)
+            time.sleep(3)
         elif local_status.isLINE1():
             isDone = line1_handler.onImageReceived(frame)
             if isDone:

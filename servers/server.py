@@ -5,6 +5,7 @@ import time
 from flask import Flask, request, jsonify
 from handlers import dispatch
 import servers.mqtt_server as mqtt_server
+import local_status
 
 app = Flask(__name__)
 
@@ -20,22 +21,16 @@ def get_status():
 @app.route('/setStatus', methods=['POST'])
 def set_status():
     data = request.get_json()
-    print(f"Status updated to: {data}")
-    #  with status_lock:
-    #         global current_status # 声明要修改全局变量
-    #         current_status = new_status
-    #         print(f"Status updated to: {current_status}")
-    # if data and 'status' in data:
-    #     new_status = data['status']
-    #     global current_status # 声明要修改全局变量
-    #     current_status = new_status
-    #     print(f"Status updated to: {current_status}")
-    #     # 返回成功消息和新的状态
-    #     return jsonify({"message": "Status updated successfully", "new_status": current_status}), 200
-    # else:
-    #     print("Invalid request: Missing or invalid JSON body")
-    #     # 如果请求体不符合要求，返回错误信息和 400 状态码
-    #     return jsonify({"error": "Invalid request. Please provide a JSON body with a 'status' key."}), 400
+
+    print(f"-----------------Status updated to: {data['status']}")
+
+    if data['status'] == 'Line':
+        local_status.setLine()
+    elif data['status'] == 'Catch':
+        local_status.setCatch()
+    elif data['status'] == 'Idle':
+        local_status.setIdle()
+    
     return jsonify({"message": "Status updated successfully", "new_status": current_status}), 200
 
 def run_flask_server(port):

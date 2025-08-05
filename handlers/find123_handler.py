@@ -5,6 +5,7 @@ import local_status
 
 def onImageReceived(frame):
     print("Find123 Handler:: RUNING")
+    
     results = detect_target_final.predict(frame)
     if (targetEntity := util.findTarget123(results, local_status.TARGET_123)):
         

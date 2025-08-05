@@ -8,18 +8,9 @@ firstRun = True
 
 def onImageReceived(frame):
     print("Line2 Handler:: RUNING")
-    global firstRun
     results = detect_line.predict(frame)
-    
-    if firstRun == True:
-        do.handleOffset(util.findLine(results))
-        do.ahead(-55, 2)
-        firstRun = False
-        return False
-    else:
-        results = detect_line.predict(frame)
         
-        if (tpEntity := util.findTurningPoint(results)):
+    if (tpEntity := util.findTurningPoint(results)):
             isTurning = do.handleTurning(tpEntity, 'left')
         
             if isTurning:
@@ -27,10 +18,10 @@ def onImageReceived(frame):
             else:
                 return False
             
-        elif (lineEntity := util.findLine(results)):
+    elif (lineEntity := util.findLine(results)):
             do.handleLine(lineEntity)
             return False
-        else:
+    else:
             missAll()
 
 def missAll():

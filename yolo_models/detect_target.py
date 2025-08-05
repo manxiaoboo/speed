@@ -5,13 +5,14 @@ def loadModel():
     local_status.DETECT_TARGET_MODEL = YOLOv10('yolo_models/detect_target.pt')
     print('[Model Target Ready]')
 
-def predict(frame):
+def predict(frame, conf=0.1):
     if local_status.DETECT_TARGET_MODEL is None:
         return []
     else:
-        results = local_status.DETECT_TARGET_MODEL.predict(frame, conf=0.1)
+        results = local_status.DETECT_TARGET_MODEL.predict(frame, conf=conf)
         results_dict = []
         for bbox in results:
             if len(bbox.boxes) > 0:
                 results_dict.append(bbox.tojson())
+        print(results_dict)
         return results_dict

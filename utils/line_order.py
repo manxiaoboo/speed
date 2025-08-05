@@ -5,6 +5,9 @@ import servers.mqtt_server as mqtt_server
 import servers.camera_server as camera_server
 import utils.util as util
 import local_status
+
+last_diffX = 0
+next_direc = ''
     
 def handleOffset(entity):
     box = entity['box']
@@ -15,19 +18,21 @@ def handleOffset(entity):
     lineWidth = util.getWidth(x1, x2)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
         
-    if abs(differenceX) > 130:
+    if abs(differenceX) > 110 and last_diffX == 0:
         print('handleH============>', abs(differenceX))
         handleOffsetH(entity)
         return False
     
-    if abs(differenceWidth) > 25 and abs(differenceX) > 28:
-        print('handleDirection=============>', abs(differenceWidth))
+    print('handleDirection=============>', abs(differenceWidth), abs(differenceX))
+    if abs(differenceWidth) > 24 and abs(differenceX) > 20:
         handleOffsetDirection(entity)
         return False
     
     return True
 
 def handleOffsetDirection(entity):
+    global last_diffX
+    global next_direc
     box = entity['box']
     x1 = box['x1']
     x2 = box['x2']
@@ -35,14 +40,31 @@ def handleOffsetDirection(entity):
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
     differenceWidth = util.calcDifferenceWidth(lineWidth)
+    if last_diffX == 0:
+        last_diffX = differenceX
     turn_size = abs(differenceWidth) / 130 * 0.25
-    print(f"turn  {turn_size}")
     if turn_size < 0.04:
         turn_size = 0.04
-    if differenceX > 0:
-        offsetTurn(22, turn_size, 'right')
-    elif differenceX < 0:
-        offsetTurn(22, turn_size, 'left')
+        
+    print(f"differenceX: {differenceX}  x1:{x1}")
+    
+    # special case
+    if abs(last_diffX) < abs(differenceX):
+        turn_size = turn_size * 2
+        last_diffX = 0
+        offsetTurn(22, turn_size, next_direc)
+        next_direc = ''
+    else:
+        next_direc = ''
+        last_diffX = 0
+        
+        if differenceX > 0:
+                offsetTurn(22, turn_size, 'right')
+                next_direc = 'left'
+        elif differenceX < 0:
+                offsetTurn(22, turn_size, 'left')
+                next_direc = 'right'
+    
     
 
 def handleOffsetH(entity):
@@ -51,7 +73,7 @@ def handleOffsetH(entity):
     x2 = box['x2']
     lineCenterX = util.getCenterPositionX(x1, x2)
     differenceX = util.calcDifferenceX(lineCenterX)
-    horizontal_size = abs(differenceX) / 90 * 0.25
+    horizontal_size = abs(differenceX) / 80 * 0.25
     if horizontal_size < 0.04:
         horizontal_size = 0.04
     print(f"Move H {horizontal_size}")
@@ -61,52 +83,31 @@ def handleOffsetH(entity):
         offsetHorizontal(40, horizontal_size, 'right')
 
 
-def handleLine(entity):
+def handleLine(entity, speed=-80, time=2):
+    global last_diffX
+    global next_direc
     if handleOffset(entity) == False:
         return False
     
-    # ahead(-20, 0.2)
-    # ahead(-30, 0.2)
-    # ahead(-45, 0.2)
-    ahead(-70, 1.7)
-    # ahead(-45, 0.2)
-    # ahead(-20, 0.2)
+    last_diffX = 0
+    next_direc = ''
+    ahead(speed, time)
 
 def handleEnd(entity):
+    print('00000000000 handleEnd')
     box = entity['box']
     y1 = box['y1']
     y2 = box['y2']
     lineCenterY = util.getCenterPositionY(y1, y2)
     differenceY = util.calcDifferenceY(lineCenterY)
+    endHeight = util.getHeight(y1, y2)
+    
     handleOffset(entity)
-    if differenceY > 0:
-        print('==TrunAround Now End')
-        ahead(-48, 2.5)
-        turnAround()
-        return True
-    elif 180 <= abs(differenceY) <= 240:
-        print('==Run 4.4s End')
-        ahead(-48, 4.4)
-        turnAround()
-        return True
-    elif 120 <= abs(differenceY) < 180:
-        print('==Run 4s End')
-        ahead(-48, 4)
-        turnAround()
-        return True
-    elif 60 <= abs(differenceY) < 120:
-        print('==Run 3.8s End')
-        ahead(-48, 3.8)
-        turnAround()
-        return True
-    elif abs(differenceY) < 60:
-        print('==Run 3.5s End')
-        ahead(-48, 3.5)
-        turnAround()
-        return True
         
-    return False
-        
+    ahead(-58, abs((240 - endHeight) / 80))
+    turnAround()
+    return True
+                
 def handleTurning(entity, direction):
     box = entity['box']
     y1 = box['y1']
@@ -122,13 +123,14 @@ def handleTurning(entity, direction):
         back()
         return False
     
-    if differenceY < 0:
-        ahead(-62, abs((240 - turnHeight) / 72))
+    if differenceY < 0 and differenceY > -180:
+        ahead(-60, abs((240 - turnHeight) / 80))
         turn(direction)
         return True
+    else:
+        ahead(-60, 1)
+        return False
     
-        
-    return False
 
 def ahead(speed, duration):
     move_car('ahead', speed, duration)
@@ -143,15 +145,22 @@ def offsetHorizontal(speed, duration, direction):
     move_car('horizontal', speed, duration, direction)
     
 def turn(direction):
-    move_car('turn', 53, 1.2, direction)
+    stopCar()
+    time.sleep(0.2)
+    if direction == 'left':
+        move_car('turn', 53, 1, direction)
+    else:
+        move_car('turn', 53, 1, direction)
     
 def turnAround():
-    move_car('turn', 25, 6.2, 'left')
+    stopCar()
+    time.sleep(0.2)
+    move_car('turn', 45, 2.5, 'left')
     mqtt_server.driveCar(car_command.TopicStand, 1)
     time.sleep(1)
 
 def back():
-    move_car('ahead', 40, 0.4)
+    move_car('ahead', 40, 0.6)
     
 def move_car(action, speed=0, duration=0, direction=None):
     local_status.CAR_BUSY = True

@@ -38,9 +38,9 @@ def handle123Offset(entity):
     differenceWidth = util.calcDifferenceWidth(lineWidth)
         
     
-    if abs(differenceWidth) > 51:
-        handleOffsetDirection(entity)
-        return False
+    # if abs(differenceWidth) > 51:
+    #     handleOffsetDirection(entity)
+    #     return False
     
     if abs(differenceX) > 60:
         handleOffsetH(entity)
@@ -51,13 +51,15 @@ def handle123Offset(entity):
         return False
     
     if targetHeight >= 200 and targetHeight < 286:
-        ahead(35, abs(targetHeight) / 290)
-        handleOffsetDirection(entity)
+        time.sleep(0.2)
+        ahead(35, abs(targetHeight) / 320)
+        # handleOffsetDirection(entity)
+        time.sleep(0.2)
         doCatch()
         return True
     
     if targetHeight >= 286 and targetHeight <= 290:
-        handleOffsetDirection(entity)
+        # handleOffsetDirection(entity)
         doCatch()
         return True
     
@@ -91,8 +93,10 @@ def handleOffsetH(entity):
     print(f"Move H {horizontal_size}")
     if differenceX > 0:
         offsetHorizontal(40, horizontal_size, 'right')
+        local_status.OFFSET += horizontal_size
     elif differenceX < 0:
         offsetHorizontal(40, horizontal_size, 'left')
+        local_status.OFFSET -= horizontal_size
     
 def goToABCTarget(entity):
     if handleOffset(entity) == False:
@@ -144,6 +148,9 @@ def turnAround():
 
 def back():
     move_car('ahead', -40, 0.2)
+
+def bounce():
+    move_car('ahead', -20, 0.1)
     
 def left():
     offsetHorizontal(40, 0.3, 'left')

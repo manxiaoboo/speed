@@ -4,12 +4,15 @@ from blinker import signal
 IMAGE_URL = "http://192.168.1.5:5000/video_feed?id="
 CAMERA_INDEX = '0'
 
-TARGET_ABC = 'C'
-TARGET_123 = '2'
-CAR_STATUS = enums.Status.LINE1
-OUTLOOK = ['left', 'right', 'right', 'left']
-CURRENT_OUTLOOK_INDEX = 0
 
+TARGET_ABC = 'B'
+TARGET_123 = '3'
+CAR_STATUS = enums.Status.LINE5
+
+
+OUTLOOK = ['', '', '']
+CURRENT_OUTLOOK_INDEX = 0
+OFFSET = 0
 
 IMAGE_WIDTH = 640
 IMAGE_HEIGHT = 480

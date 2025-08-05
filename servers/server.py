@@ -10,13 +10,12 @@ import local_status
 app = Flask(__name__)
 
 status_lock = threading.Lock()
-current_status = "unknown"
 
 shutdown_event = threading.Event()
 
 @app.route('/getStatus', methods=['GET'])
 def get_status():
-    return jsonify({"status": current_status})
+    return jsonify({"status": local_status.CAR_STATUS})
 
 @app.route('/setStatus', methods=['POST'])
 def set_status():
@@ -30,8 +29,10 @@ def set_status():
         local_status.setCatch()
     elif data['status'] == 'Idle':
         local_status.setIdle()
+    elif data['status'] == 'Prev':
+        local_status.setPreviousStatus()
     
-    return jsonify({"message": "Status updated successfully", "new_status": current_status}), 200
+    return jsonify({"message": "Status updated successfully", "new_status": local_status.CAR_STATUS}), 200
 
 def run_flask_server(port):
     app.run(host='localhost', port=port)

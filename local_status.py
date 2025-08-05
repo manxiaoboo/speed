@@ -5,8 +5,8 @@ IMAGE_URL = "http://192.168.1.5:5000/video_feed?id="
 CAMERA_INDEX = '0'
 
 
-TARGET_ABC = 'B'
-TARGET_123 = '3'
+TARGET_ABC = 'A'
+TARGET_123 = '1'
 CAR_STATUS = enums.Status.IDLE
 
 
@@ -15,7 +15,7 @@ CURRENT_OUTLOOK_INDEX = 0
 OFFSET = 0
 
 IMAGE_WIDTH = 640
-IMAGE_HEIGHT = 480
+IMAGE_HEIGHT = 480 
 NORMAL_LINE_WIDTH = 83
 MQTT_READY = False
 CAMERA_READY = False
@@ -53,6 +53,29 @@ def setCatch():
 def setLine():
     global CAR_STATUS
     CAR_STATUS = enums.Status.LINE1
+
+def setPreviousStatus():
+    global CAR_STATUS
+    if CAR_STATUS == enums.Status.LINE1:
+        CAR_STATUS = enums.Status.IDLE
+    elif CAR_STATUS == enums.Status.LINE2:
+        CAR_STATUS = enums.Status.LINE1
+    elif CAR_STATUS == enums.Status.LINE3:
+        CAR_STATUS = enums.Status.LINE2
+    elif CAR_STATUS == enums.Status.LINE4:
+        CAR_STATUS = enums.Status.LINE3
+    elif CAR_STATUS == enums.Status.LINE5:
+        CAR_STATUS = enums.Status.LINE4
+    elif CAR_STATUS == enums.Status.BACK_LINE1:
+        CAR_STATUS = enums.Status.IDLE
+    elif CAR_STATUS == enums.Status.BACK_LINE2:
+        CAR_STATUS = enums.Status.BACK_LINE1
+    elif CAR_STATUS == enums.Status.BACK_LINE3:
+        CAR_STATUS = enums.Status.BACK_LINE2
+    elif CAR_STATUS == enums.Status.BACK_LINE4:
+        CAR_STATUS = enums.Status.BACK_LINE3
+    elif CAR_STATUS == enums.Status.BACK_LINE5:
+        CAR_STATUS = enums.Status.BACK_LINE4
 
 def isIDLE():
     return CAR_STATUS == enums.Status.IDLE

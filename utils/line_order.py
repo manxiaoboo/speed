@@ -124,7 +124,7 @@ def handleTurning(entity, direction):
         return False
     
     if differenceY < 0 and differenceY > -180:
-        ahead(-60, abs((240 - turnHeight) / 80))
+        ahead(-58, abs((240 - turnHeight) / 80))
         turn(direction)
         return True
     else:

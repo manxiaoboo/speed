@@ -5,8 +5,8 @@ IMAGE_URL = "http://192.168.1.5:5000/video_feed?id="
 CAMERA_INDEX = '0'
 
 
-TARGET_ABC = 'A'
-TARGET_123 = '1'
+TARGET_ABC = 'B'
+TARGET_123 = '3'
 CAR_STATUS = enums.Status.IDLE
 
 

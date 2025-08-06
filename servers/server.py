@@ -15,7 +15,7 @@ shutdown_event = threading.Event()
 
 @app.route('/getStatus', methods=['GET'])
 def get_status():
-    return jsonify({"status": local_status.CAR_STATUS})
+    return jsonify({"status": str(local_status.CAR_STATUS)})
 
 @app.route('/setStatus', methods=['POST'])
 def set_status():
@@ -31,8 +31,8 @@ def set_status():
         local_status.setIdle()
     elif data['status'] == 'Prev':
         local_status.setPreviousStatus()
-    
-    return jsonify({"message": "Status updated successfully", "new_status": local_status.CAR_STATUS}), 200
+
+    return jsonify({"message": "Status updated successfully", "newStatus": str(local_status.CAR_STATUS) }), 200
 
 def run_flask_server(port):
     app.run(host='localhost', port=port)
